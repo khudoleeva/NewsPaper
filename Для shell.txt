@@ -1,0 +1,62 @@
+
+from django.contrib.auth.models import User
+from news.models import * 
+user1 = User.objects.create_user(username = "Иванов")
+user2 = User.objects.create_user(username = "Петров")
+user3 = User.objects.create_user(username = "Сидоров")
+
+author1 = Author.objects.create(one_to_one_user = user1)
+author2 = Author.objects.create(one_to_one_user = user2)
+
+cat1 = Category.objects.create(name_category = "Политика")
+cat2 = Category.objects.create(name_category = "Спорт")
+cat3 = Category.objects.create(name_category = "Культура")
+cat4 = Category.objects.create(name_category = "Наука")
+
+post1 = Post.objects.create(one_to_many_author = author1, type_post ='a', name_post='статья1', text_post="Python является мультипарадигмальным языком программирования, поддерживающим императивное, процедурное, структурное, объектно-ориентированное программирование, метапрограммирование и функциональное программирование. Задачи обобщённого программирования решаются за счёт динамической типизации. Аспектно-ориентированное программирование частично поддерживается через декораторы, более полноценная поддержка обеспечивается дополнительными фреймворками.")
+post2 = Post.objects.create(one_to_many_author = author1, type_post ='a', name_post='статья2', text_post="Состав, синтаксис, ассоциативность")
+post3 = Post.objects.create(one_to_many_author = author2, name_post='новость', text_post="Python — стабильный")
+post1.category.add(cat1,cat2) 
+post2.category.add(cat2,cat3) ) 
+post3.category.add(cat3,cat4) 
+comment1=Comment.objects.create(text_comment="Отличная статья", one_to_many_user=user1,one_to_many_post=post1) 
+comment2=Comment.objects.create(text_comment="Статья понравилась", one_to_many_user=user2,one_to_many_post=post2)
+comment3=Comment.objects.create(text_comment="Хорошая новость!!!", one_to_many_user=user1,one_to_many_post=post3) 
+comment4=Comment.objects.create(text_comment="Не понравилась(", one_to_many_user=user2,one_to_many_post=post1)
+>>> comment1.like()
+>>> comment1.like()
+>>> comment1.like()
+>>> comment1.like()
+>>> comment1.like()
+>>> comment1.like()
+>>> comment1.like()
+>>> comment2.like() 
+>>> comment2.like()
+>>> comment3.like() 
+>>> comment4.like() 
+>>> comment4.like()
+>>> comment4.like()
+>>> comment4.like()
+>>> post1.like()
+>>> post1.like()
+>>> post1.like()
+>>> post1.like()
+>>> post1.like()
+>>> post2.like() 
+>>> post2.like()
+>>> post3.like() 
+>>> post3.like()
+>>> post3.like()
+>>> post1.dislike() 
+author1.update_rating()
+author2.update_rating() 
+Author.objects.all().order_by('-rating_author').values("one_to_one_user")[0] 
+User.objects.get(id='5')
+
+Post.objects.all().order_by('-rating_post').values('date_post','one_to_many_author','rating_post', 'name_post')[0]
+
+Post.objects.get(name_post = 'статья1').preview()  
+
+(Post.objects.get(name_post = 'статья1')).comment_set.all().values('rating_comment','text_comment','date_comment','one_to_many_user') 
+
+
