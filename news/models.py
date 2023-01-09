@@ -6,7 +6,8 @@ from django.db.models import Sum
 class Author(models.Model):
 	rating_author = models.IntegerField(default=0)
 	one_to_one_user = models.OneToOneField(User, on_delete=models.CASCADE)
-
+	def __str__(self):
+		return f'{self.one_to_one_user.username}'
 	def update_rating(self):
 		postRating = self.post_set.all().aggregate(sumR = Sum('rating_post'))
 		postR=0
@@ -19,7 +20,8 @@ class Author(models.Model):
 
 class Category(models.Model):
 	name_category = models.CharField(max_length=255, unique=True)
-
+	def __str__(self):
+		return f'{self.name_category}'
 class Post(models.Model):
 	article = 'a'
 	news = 'n'
@@ -44,6 +46,8 @@ class Post(models.Model):
 		return self.text_post[:124] + "..."
 	def __str__(self):
 		return f'{self.name_post.title()}: {self.text_post[:20]}'
+	def get_absolute_url(self):
+		return f'/news/{self.id}'
 
 class PostCategory(models.Model):
 	in_category = models.ForeignKey(Category, on_delete=models.CASCADE)

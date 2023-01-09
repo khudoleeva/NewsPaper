@@ -1,0 +1,18 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+{{new.name_post|Censor:"Python"|Censor:"адрес"}}
+{% endblock title %}
+
+
+{% block content %}
+<a href="/news/{{new.id}}/edit">Редактировать</a>
+<a href="/news/{{new.id}}/delete">Удалить</a>
+<h5>{{ new.date_post|date:"d - M - Y H:i"}}</h5>
+<hr/>
+ {{ new.text_post|Censor:"C++"|Censor:"Python"|Censor:"статья"}}
+<hr/>
+автор: {{new.one_to_many_author.one_to_one_user}}
+
+{% endblock content %}
