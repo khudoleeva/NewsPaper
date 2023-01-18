@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-v3m=-^gmfy8#+b@*5x&8kjvq_#@c81$e&t0_k3v88k=)gt!0!n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'news',
     'accounts',
     'django_filters',
@@ -132,3 +136,17 @@ SITE_ID = 1
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+LOGIN_REDIRECT_URL = '/news/user/'
+LOGOUT_REDIRECT_URL = '/news/'
+LOGIN_URL = '/accounts/login/'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_USERNAME_MIN_LENGTH = 4
+ACCOUNT_FORMS = {'signup': 'news.forms.BasicSignupForm'}
