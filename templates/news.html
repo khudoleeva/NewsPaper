@@ -7,7 +7,30 @@
 
 <!-- В контенте на странице мы выводим все товары -->
 {% block content %}
-<h2>Все посты</h2>
+<h5>Категории:</h5>
+{% for category in categ %}
+<!--        {% for de in category.subscribers.all %}-->
+<!--            1  {{ de.email }}-->
+<!--        {% endfor %}-->
+    <form style='display:inline;' method='post'>
+        {% csrf_token %}
+        <input type="hidden" value="{{category.id}}" name= 'cat'>
+        <input type="submit" value="{{ category }}" name="btn">
+<!--<a href="/news/category/{{ category.id }}">{{ category }}</a>-->
+    </form>
+{% endfor %}
+
+
+{% if cat_name %}
+    <h5>Все посты категории {{cat_name}}</h5>
+    <form method='post' action="/news/category/">
+        {% csrf_token %}
+        <input type="hidden" value="{{cat_name}}" name= 'sub'>
+        <input type="submit" value="Подписаться на категорию {{cat_name}} !" name="btnsub">
+    </form>
+{% else %}
+    <h5>Все посты</h5>
+{% endif %}
 <hr>
 <table>
     <tr>

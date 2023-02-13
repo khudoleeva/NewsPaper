@@ -3,6 +3,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Sum
 
+
 class Author(models.Model):
 	rating_author = models.IntegerField(default=0)
 	one_to_one_user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -20,8 +21,14 @@ class Author(models.Model):
 
 class Category(models.Model):
 	name_category = models.CharField(max_length=255, unique=True)
+	subscribers = models.ManyToManyField(User, through="AuthorCategory")
 	def __str__(self):
 		return f'{self.name_category}'
+
+class AuthorCategory(models.Model):
+	in_user = models.ForeignKey(User, on_delete=models.CASCADE)
+	in_category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
 class Post(models.Model):
 	article = 'a'
 	news = 'n'

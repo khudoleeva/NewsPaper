@@ -1,5 +1,6 @@
 from django.forms import ModelForm, Select
-from .models import Post
+from django import forms
+from .models import *
 from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
 

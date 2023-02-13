@@ -14,4 +14,10 @@
  {{ new.text_post|Censor:"C++"|Censor:"Python"|Censor:"статья"}}
 <hr/>
 автор: {{new.one_to_many_author.one_to_one_user}}
+<br>
+категория:
+<!--{{ new.category.all }}-->
+{% for category in new.category.all %}
+    {{ category.name_category }}
+{% endfor %}
 {% endblock content %}
