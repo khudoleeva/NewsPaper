@@ -2,7 +2,7 @@ from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Sum
-
+from django.core.cache import cache
 
 class Author(models.Model):
 	rating_author = models.IntegerField(default=0)
@@ -55,6 +55,10 @@ class Post(models.Model):
 		return f'{self.name_post.title()}: {self.text_post[:20]}'
 	def get_absolute_url(self):
 		return f'/news/{self.id}'
+
+	def save(self, *args, **kwargs):
+		super().save(*args, **kwargs)
+		cache.delete(f'new-{self.pk}')
 
 class PostCategory(models.Model):
 	in_category = models.ForeignKey(Category, on_delete=models.CASCADE)

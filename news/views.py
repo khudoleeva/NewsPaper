@@ -13,7 +13,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.core.cache import cache
 
 class PostList(ListView):
 	model = Post
@@ -60,6 +60,14 @@ class PostDetail(DetailView):
 	model = Post
 	template_name = 'news_app/new.html'
 	context_object_name = 'new'
+
+	def get_object(self, *args, **kwargs):
+		obj = cache.get(f'new-{self.kwargs["pk"]}',
+						None)
+		if not obj:
+			obj = super().get_object(queryset=self.queryset)
+			cache.set(f'new-{self.kwargs["pk"]}', obj)
+		return obj
 
 class PostCreate(PermissionRequiredMixin,CreateView):
 	permission_required = ('news.add_post',)
